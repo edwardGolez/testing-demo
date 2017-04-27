@@ -8,7 +8,6 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 
 jar {
@@ -33,5 +32,5 @@ dependencies {
 	// tag::actuator[]
 	compile("org.springframework.boot:spring-boot-starter-actuator")
 	// end::actuator[]
-	testCompile("junit:junit")
+	testCompile("junit:junit:4.12")
 }
