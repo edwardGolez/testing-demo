@@ -1,4 +1,4 @@
-package com.synacy.lesson01;
+package com.synacy.lesson01.demo;
 
 public class ArrayUtils {
 
