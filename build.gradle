@@ -32,9 +32,12 @@ dependencies {
 	// tag::actuator[]
 	compile("org.springframework.boot:spring-boot-starter-actuator")
 	// end::actuator[]
-	testCompile("junit:junit:4.12")
-	testCompile("org.mockito:mockito-core:2.7.22")
 
+	// JUNIT4
+//	testCompile("junit:junit:4.12")
+//	testCompile("org.mockito:mockito-core:2.7.22")
+
+	// SPOCK
 //	testCompile("org.spockframework:spock-spring")
 //	testCompile("cglib:cglib:3.2.4")
 }
