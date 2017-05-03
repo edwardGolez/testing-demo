@@ -10,12 +10,13 @@ import static org.junit.Assert.*;
 public class ComplexNumberTest {
 
     @Test
-    public void add() throws Exception {
+    public void add_shouldAddTwoComplexNumbersAndReturnAComplexNumber() throws Exception {
         ComplexNumber number = new ComplexNumber(3, -1);
+        ComplexNumber anotherComplexNumber = new ComplexNumber(4, -1);
 
-        ComplexNumber result = number.add(number);
+        ComplexNumber result = number.add(anotherComplexNumber);
 
-        assertEquals(6, result.getReal(), 0.001);
+        assertEquals(7, result.getReal(), 0.001);
         assertEquals(-2, result.getImaginary(), 0.001);
     }
 
