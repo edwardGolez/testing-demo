@@ -19,11 +19,11 @@ public class EnrollmentServiceTest {
 
     private EnrollmentService enrollmentService;
 
-    @Mock StudentProfileService studentProfileService;
-    @Mock CourseClassService courseClassService;
-    @Mock EnrollmentNotificationService enrollmentNotificationService;
-    @Mock SystemService systemService;
-    @Mock StudyLoadFormatter studyLoadFormatter;
+    @Mock private StudentProfileService studentProfileService;
+    @Mock private CourseClassService courseClassService;
+    @Mock private EnrollmentNotificationService enrollmentNotificationService;
+    @Mock private SystemService systemService;
+    @Mock private StudyLoadFormatter studyLoadFormatter;
 
     @Before
     public void setup() {
@@ -40,6 +40,7 @@ public class EnrollmentServiceTest {
     public void processEnrollment_shouldUpdateStudentProfile() throws Exception {
         EnrollmentDto enrollmentDetails = mock(EnrollmentDto.class);
         StudentProfile studentProfile = mock(StudentProfile.class);
+
         when(enrollmentDetails.getStudentProfile()).thenReturn(studentProfile);
 
         enrollmentService.processEnrollment(enrollmentDetails);
@@ -52,31 +53,30 @@ public class EnrollmentServiceTest {
     @Test
     public void processEnrollment_shouldEnrollStudentToClass() throws Exception {
         EnrollmentDto enrollmentDetails = mock(EnrollmentDto.class);
-        StudentProfile studentProfile = mock(StudentProfile.class);
-        when(enrollmentDetails.getStudentProfile()).thenReturn(studentProfile);
+
+        Student student = enrollmentDetails.getStudent();
 
         Set<CourseClass> enrolledClasses = new HashSet<>();
         enrolledClasses.add(mock(CourseClass.class));
         enrolledClasses.add(mock(CourseClass.class));
         when(enrollmentDetails.getEnrolledClasses()).thenReturn(enrolledClasses);
+        Iterator<CourseClass> courseClassIterator = enrolledClasses.iterator();
 
         enrollmentService.processEnrollment(enrollmentDetails);
-        studentProfileService.updateStudentProfile(studentProfile);
 
-        Iterator<CourseClass> iterator = enrolledClasses.iterator();
-
-        Student student = enrollmentDetails.getStudent();
         verify(courseClassService, times(1)).enrollStudentToClass(
                 ArgumentMatchers.eq(student),
-                ArgumentMatchers.eq(iterator.next())
+                ArgumentMatchers.eq(courseClassIterator.next())
+        );
+        verify(courseClassService, times(1)).enrollStudentToClass(
+                ArgumentMatchers.eq(student),
+                ArgumentMatchers.eq(courseClassIterator.next())
         );
     }
 
     @Test
     public void processEnrollment_shouldNotifyStudentViaEmail() throws Exception {
         EnrollmentDto enrollmentDetails = mock(EnrollmentDto.class);
-        StudentProfile studentProfile = mock(StudentProfile.class);
-        when(enrollmentDetails.getStudentProfile()).thenReturn(studentProfile);
 
         enrollmentService.processEnrollment(enrollmentDetails);
 
@@ -89,16 +89,14 @@ public class EnrollmentServiceTest {
     @Test
     public void processEnrollment_shouldPrintStudyLoadOfStudent() throws Exception {
         EnrollmentDto enrollmentDetails = mock(EnrollmentDto.class);
-        StudentProfile studentProfile = mock(StudentProfile.class);
-        when(enrollmentDetails.getStudentProfile()).thenReturn(studentProfile);
+        StudyLoad studyLoad = mock(StudyLoad.class);
+
+        when(studyLoadFormatter.format(enrollmentDetails)).thenReturn(studyLoad);
+        Printable studyLoadPrintable = studyLoad;
 
         enrollmentService.processEnrollment(enrollmentDetails);
 
-        Printable studyLoadPrintable = mock(StudyLoad.class);
-//        StudyLoad studyLoad = mock(Printable.class);
-        when(studyLoadFormatter.format(enrollmentDetails)).thenReturn((StudyLoad) studyLoadPrintable);
-
-        verify(systemService).print(
+        verify(systemService, times(1)).print(
                 ArgumentMatchers.eq(studyLoadPrintable)
         );
     }
