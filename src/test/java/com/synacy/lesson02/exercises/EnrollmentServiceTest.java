@@ -1,6 +1,8 @@
 package com.synacy.lesson02.exercises;
 
+import com.synacy.lesson02.exercises.domain.CourseClass;
 import com.synacy.lesson02.exercises.domain.EnrollmentDto;
+import com.synacy.lesson02.exercises.domain.Student;
 import com.synacy.lesson02.exercises.domain.StudentProfile;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,6 +10,10 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -18,15 +24,14 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EnrollmentServiceTest {
-
     private EnrollmentService enrollmentService;
 
     @Mock StudentProfileService studentProfileService;
+
     @Mock CourseClassService courseClassService;
     @Mock EnrollmentNotificationService enrollmentNotificationService;
     @Mock StudyLoadFormatter studyLoadFormatter;
     @Mock SystemService systemService;
-
     @Before
     public void setup() {
         enrollmentService = new EnrollmentService();
@@ -36,6 +41,33 @@ public class EnrollmentServiceTest {
         enrollmentService.setEnrollmentNotificationService(enrollmentNotificationService);
         enrollmentService.setStudyLoadFormatter(studyLoadFormatter);
         enrollmentService.setSystemService(systemService);
+    }
+
+    @Test
+    public void processEnrollment_shouldEnrollStudentInClasses() throws Exception {
+
+        EnrollmentDto enrollmentDetails = mock(EnrollmentDto.class);
+        Student student = mock(Student.class);
+
+        when(enrollmentDetails.getStudent()).thenReturn(student);
+
+        Set<CourseClass> enrolledClasses = new HashSet<>();
+        enrolledClasses.add(mock(CourseClass.class));
+        enrolledClasses.add(mock(CourseClass.class));
+        enrolledClasses.add(mock(CourseClass.class));
+
+        when(enrollmentDetails.getEnrolledClasses()).thenReturn(enrolledClasses);
+
+
+        Iterator<CourseClass> enrolledClass = enrolledClasses.iterator();
+
+        enrollmentService.processEnrollment(enrollmentDetails);
+
+        verify(courseClassService, times(1)).enrollStudentToClass(
+                ArgumentMatchers.eq(student),
+                ArgumentMatchers.eq(enrolledClass.next())
+        );
+
     }
 
     @Test
