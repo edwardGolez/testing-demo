@@ -4,9 +4,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by ccomision on 5/3/17.
- */
 public class ComplexNumberTest {
 
     @Test
@@ -21,8 +18,14 @@ public class ComplexNumberTest {
     }
 
     @Test
-    public void subtract() throws Exception {
-        assertTrue(true);
+    public void subtract_shouldSubtractTwoComplexNumbersAndReturnAComplexNumber() throws Exception {
+        ComplexNumber number = new ComplexNumber(4, -1);
+        ComplexNumber anotherComplexNumber = new ComplexNumber(7, -1);
+
+        ComplexNumber result = number.subtract(anotherComplexNumber);
+
+        assertEquals(-3, result.getReal(), 0.001);
+        assertEquals(0, result.getImaginary(), 0.001);
     }
 
     @Test
