@@ -25,8 +25,14 @@ public class ComplexNumberTest {
     }
 
     @Test
-    public void subtract() throws Exception {
-        Assert.fail();
+    public void subtract_shouldReturn2Real6ImaginaryComplexNumber() throws Exception {
+        ComplexNumber complexNumber = new ComplexNumber(5, 4);
+        ComplexNumber anotherComplexNumber = new ComplexNumber(3, -2);
+
+        ComplexNumber result = complexNumber.subtract(anotherComplexNumber);
+
+        Assert.assertEquals(2, result.getReal(), .001);
+        Assert.assertEquals(6, result.getImaginary(), .001);
     }
 
     @Test
