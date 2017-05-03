@@ -3,6 +3,7 @@ package com.synacy.lesson02.demo;
 import com.synacy.lesson02.demo.domain.*;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -16,10 +17,10 @@ public class ShippingService {
 
 		List<SalesOrder> salesOrderForShipment = salesOrderService.fetchSalesOrderDueForShipment(shippingBatch);
 
-		Map<FinishedGood, Integer> totalItemsShipped = new HashMap<FinishedGood, Integer>();
+		Map<FinishedGood, Integer> totalItemsShipped = new HashMap<>();
 		for(SalesOrder salesOrder: salesOrderForShipment) {
 			Map<FinishedGood, Integer> salesOrderItemCount = salesOrder.getSalesOrderItemCount();
-			totalItemsShipped.putAll(salesOrderItemCount);
+			incrementTotalItemsShipped(totalItemsShipped, salesOrderItemCount);
 
 			salesOrderService.updateStatus(salesOrder, SalesOrderStatus.SHIPPED);
 			customerNotificationService.notifyCustomer(NotificationType.SALES_ORDER_STATUS, salesOrder);
@@ -28,6 +29,23 @@ public class ShippingService {
 		warehouseService.updateInventoryLevel(totalItemsShipped);
 
 		return salesOrderForShipment;
+	}
+
+	private void incrementTotalItemsShipped(Map<FinishedGood, Integer> totalItemsShipped, Map<FinishedGood, Integer> salesOrderItemCount) {
+		Iterator<FinishedGood> iterator = salesOrderItemCount.keySet().iterator();
+
+		while(iterator.hasNext()) {
+			FinishedGood finishedGood = iterator.next();
+
+			if(totalItemsShipped.containsKey(finishedGood)) {
+				int newQuantity = totalItemsShipped.get(finishedGood) + salesOrderItemCount.get(finishedGood);
+				totalItemsShipped.put(finishedGood, newQuantity);
+			} else {
+				totalItemsShipped.put(finishedGood, salesOrderItemCount.get(finishedGood));
+			}
+
+		}
+
 	}
 
 	public SalesOrderService getSalesOrderService() {
