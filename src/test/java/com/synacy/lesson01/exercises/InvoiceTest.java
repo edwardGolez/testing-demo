@@ -18,9 +18,9 @@ public class InvoiceTest {
         items.add(new InvoiceItem(new Product("siomai", 7.0), 15));
 
         Invoice invoice = new Invoice(items);
-        double totalAmount = invoice.getTotalAmount();
+        double result = invoice.getTotalAmount();
 
-        Assert.assertEquals(225, totalAmount, .001);
+        Assert.assertEquals(225, result, .001);
 
     }
 
