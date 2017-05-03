@@ -29,6 +29,7 @@ public class EnrollmentServiceTest {
     @Mock CourseClassService courseClassService;
 
     @Mock EnrollmentNotificationService enrollmentNotificationService;
+
     @Mock StudyLoadFormatter studyLoadFormatter;
     @Mock SystemService systemService;
     @Before
@@ -40,6 +41,20 @@ public class EnrollmentServiceTest {
         enrollmentService.setEnrollmentNotificationService(enrollmentNotificationService);
         enrollmentService.setStudyLoadFormatter(studyLoadFormatter);
         enrollmentService.setSystemService(systemService);
+    }
+
+    @Test
+    public void processEnrollment_shouldPrintStudyLoad() throws Exception {
+        EnrollmentDto enrollmentDetails = mock(EnrollmentDto.class);
+        Printable studyLoadPrintable = mock(StudyLoad.class);
+
+        when(studyLoadFormatter.format(enrollmentDetails)).thenReturn((StudyLoad) studyLoadPrintable);
+
+        enrollmentService.processEnrollment(enrollmentDetails);
+
+        verify(systemService, times(1)).print(
+                ArgumentMatchers.eq(studyLoadPrintable)
+        );
     }
 
     @Test
