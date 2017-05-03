@@ -35,8 +35,8 @@ public class ComplexNumberTest {
 
         ComplexNumber result = number.multiply(anotherComplexNumber);
 
-        assertEquals(15, result.getReal(), 0.001);
-        assertEquals(1, result.getImaginary(), 0.001);
+        assertEquals(14, result.getReal(), 0.001);
+        assertEquals(-8, result.getImaginary(), 0.001);
     }
 
 }
