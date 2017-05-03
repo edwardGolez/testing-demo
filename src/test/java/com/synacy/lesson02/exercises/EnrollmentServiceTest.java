@@ -1,9 +1,6 @@
 package com.synacy.lesson02.exercises;
 
-import com.synacy.lesson02.exercises.domain.CourseClass;
-import com.synacy.lesson02.exercises.domain.EnrollmentDto;
-import com.synacy.lesson02.exercises.domain.Student;
-import com.synacy.lesson02.exercises.domain.StudentProfile;
+import com.synacy.lesson02.exercises.domain.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +8,7 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -29,6 +27,7 @@ public class EnrollmentServiceTest {
     @Mock StudentProfileService studentProfileService;
 
     @Mock CourseClassService courseClassService;
+
     @Mock EnrollmentNotificationService enrollmentNotificationService;
     @Mock StudyLoadFormatter studyLoadFormatter;
     @Mock SystemService systemService;
@@ -41,6 +40,20 @@ public class EnrollmentServiceTest {
         enrollmentService.setEnrollmentNotificationService(enrollmentNotificationService);
         enrollmentService.setStudyLoadFormatter(studyLoadFormatter);
         enrollmentService.setSystemService(systemService);
+    }
+
+    @Test
+    public void processEnrollment_shouldNotifyStudentsOnEnrollment() throws Exception {
+
+        EnrollmentDto enrollmentDetails = mock(EnrollmentDto.class);
+
+        enrollmentService.processEnrollment(enrollmentDetails);
+
+        verify(enrollmentNotificationService, times(1)).emailStudent(
+                ArgumentMatchers.eq(StudentEmailType.ENROLLMENT),
+                ArgumentMatchers.eq(enrollmentDetails)
+        );
+
     }
 
     @Test
