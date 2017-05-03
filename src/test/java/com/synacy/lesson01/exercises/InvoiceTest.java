@@ -11,7 +11,7 @@ import java.util.Set;
  */
 public class InvoiceTest {
     @Test
-    public void getTotalAmount_shouldReturn225() throws Exception {
+    public void getTotalAmount_shouldReturn225AtBaconAt12At10UnitsAndSiomaiAt7At15Units() throws Exception {
         Set<InvoiceItem> items = new HashSet<>();
 
         items.add(new InvoiceItem(new Product("bacon", 12.0), 10));
