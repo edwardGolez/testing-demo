@@ -30,7 +30,13 @@ public class ComplexNumberTest {
 
     @Test
     public void multiply() throws Exception {
-        assertTrue(true);
+        ComplexNumber number = new ComplexNumber(5, -1);
+        ComplexNumber anotherComplexNumber = new ComplexNumber(3, -1);
+
+        ComplexNumber result = number.multiply(anotherComplexNumber);
+
+        assertEquals(15, result.getReal(), 0.001);
+        assertEquals(1, result.getImaginary(), 0.001);
     }
 
 }
