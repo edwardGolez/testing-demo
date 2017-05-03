@@ -36,8 +36,15 @@ public class ComplexNumberTest {
     }
 
     @Test
-    public void multiply() throws Exception {
-        Assert.fail();
+    public void multiply_shouldReturn3Real8iSquaredReal12Imaginary2Imaginary() throws Exception {
+        ComplexNumber complexNumber = new ComplexNumber(3, 2);
+        ComplexNumber anotherComplexNumber = new ComplexNumber(1, 4);
+
+        ComplexNumber result = complexNumber.multiply(anotherComplexNumber);
+
+        Assert.assertEquals(-5, result.getReal(), .001);
+        Assert.assertEquals( 14, result.getImaginary(), .001);
+
     }
 
 }
