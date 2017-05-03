@@ -14,15 +14,15 @@ public class EnrollmentService {
 	private SystemService systemService;
 
 	public void processEnrollment(EnrollmentDto enrollmentDetails) {
-
+		//update student profile
 		studentProfileService.updateStudentProfile(enrollmentDetails.getStudentProfile());
-
+		//enroll student to class
 		for (CourseClass courseClass : enrollmentDetails.getEnrolledClasses()) {
 			courseClassService.enrollStudentToClass(enrollmentDetails.getStudent(), courseClass);
 		}
-
+		//notify student
 		enrollmentNotificationService.emailStudent(StudentEmailType.ENROLLMENT, enrollmentDetails);
-
+		//prints student details
 		Printable studyLoadPrintable = studyLoadFormatter.format(enrollmentDetails);
 		systemService.print(studyLoadPrintable);
 	}
