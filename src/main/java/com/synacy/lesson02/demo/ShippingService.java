@@ -22,6 +22,7 @@ public class ShippingService {
 			totalItemsShipped.putAll(salesOrderItemCount);
 
 			salesOrderService.updateStatus(salesOrder, SalesOrderStatus.SHIPPED);
+
 			customerNotificationService.notifyCustomer(NotificationType.SALES_ORDER_STATUS, salesOrder);
 		}
 
