@@ -29,7 +29,7 @@ public class ComplexNumberTest {
     }
 
     @Test
-    public void multiply() throws Exception {
+    public void multiply_shouldMultiplyTwoComplexNumbersAndReturnAComplexNumber() throws Exception {
         ComplexNumber number = new ComplexNumber(5, -1);
         ComplexNumber anotherComplexNumber = new ComplexNumber(3, -1);
 
