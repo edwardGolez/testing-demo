@@ -15,7 +15,7 @@ public class ArrayUtils {
 
 	public static int elementAt(int[] array, int index) {
 		if (index < 0 || index >= array.length) {
-			throw new IllegalArgumentException("Invalid index for array of lenght " + array.length + ": " + index);
+			throw new IllegalArgumentException("Invalid index for array of length " + array.length + ": " + index);
 		}
 
 		return array[index];
