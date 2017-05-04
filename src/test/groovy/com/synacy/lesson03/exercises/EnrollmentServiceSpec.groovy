@@ -79,5 +79,14 @@ class EnrollmentServiceSpec extends spock.lang.Specification {
         then:
         1 * enrollmentNotificationService.emailStudent(StudentEmailType.ENROLLMENT, enrollmentDetails)
     }
-}
 
+    def "ProcessEnrollment should prepare study load in printable format"() {
+        given:
+        EnrollmentDto enrollmentDetails = Mock()
+
+        when:
+        service.processEnrollment(enrollmentDetails)
+
+        then:
+        1 * studyLoadFormatter.format(enrollmentDetails)
+    }
