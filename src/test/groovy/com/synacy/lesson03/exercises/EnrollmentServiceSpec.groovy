@@ -6,7 +6,9 @@ import com.synacy.lesson02.exercises.EnrollmentService
 import com.synacy.lesson02.exercises.StudentProfileService
 import com.synacy.lesson02.exercises.StudyLoadFormatter
 import com.synacy.lesson02.exercises.SystemService
+import com.synacy.lesson02.exercises.domain.CourseClass
 import com.synacy.lesson02.exercises.domain.EnrollmentDto
+import com.synacy.lesson02.exercises.domain.Student
 import com.synacy.lesson02.exercises.domain.StudentProfile
 import org.mockito.Mock
 
@@ -50,4 +52,20 @@ class EnrollmentServiceSpec extends spock.lang.Specification {
         then:
         1 * studentProfileService.updateStudentProfile(studentProfile)
     }
-}
+
+    def "ProcessEnrollment should enroll student to a class/classes on processing of enrollment"() {
+        given:
+        EnrollmentDto enrollmentDetails = Mock()
+        Student student = Mock()
+        CourseClass courseClass1 = Mock()
+        CourseClass courseClass2 = Mock()
+
+        when:
+        service.processEnrollment(enrollmentDetails)
+
+        then:
+        1 * courseClassService.enrollStudentToClass(student, courseClass1)
+        1 * courseClassService.enrollStudentToClass(student, courseClass2)
+    }
+    
+
