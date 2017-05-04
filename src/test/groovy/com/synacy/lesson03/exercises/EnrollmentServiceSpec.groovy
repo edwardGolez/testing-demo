@@ -8,6 +8,7 @@ import com.synacy.lesson02.exercises.StudyLoadFormatter
 import com.synacy.lesson02.exercises.SystemService
 import com.synacy.lesson02.exercises.domain.CourseClass
 import com.synacy.lesson02.exercises.domain.EnrollmentDto
+import com.synacy.lesson02.exercises.domain.Printable
 import com.synacy.lesson02.exercises.domain.Student
 import com.synacy.lesson02.exercises.domain.StudentEmailType
 import com.synacy.lesson02.exercises.domain.StudentProfile
@@ -90,3 +91,17 @@ class EnrollmentServiceSpec extends spock.lang.Specification {
         then:
         1 * studyLoadFormatter.format(enrollmentDetails)
     }
+
+    def "ProcessEnrollment should have the system print study load in study load format"() {
+        given:
+        EnrollmentDto enrollmentDetails = Mock()
+        Printable studyLoadPrintable = Mock()
+
+        when:
+        service.processEnrollment(enrollmentDetails)
+
+        then:
+        1 * systemService.print(studyLoadPrintable)
+
+    }
+}
