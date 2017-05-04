@@ -9,6 +9,7 @@ import com.synacy.lesson02.exercises.SystemService
 import com.synacy.lesson02.exercises.domain.CourseClass
 import com.synacy.lesson02.exercises.domain.EnrollmentDto
 import com.synacy.lesson02.exercises.domain.Student
+import com.synacy.lesson02.exercises.domain.StudentEmailType
 import com.synacy.lesson02.exercises.domain.StudentProfile
 import org.mockito.Mock
 
@@ -67,5 +68,16 @@ class EnrollmentServiceSpec extends spock.lang.Specification {
         1 * courseClassService.enrollStudentToClass(student, courseClass1)
         1 * courseClassService.enrollStudentToClass(student, courseClass2)
     }
-    
+
+    def "ProcessEnrollment should notify student via email on processing of enrollment"() {
+        given:
+        EnrollmentDto enrollmentDetails = Mock()
+
+        when:
+        service.processEnrollment(enrollmentDetails)
+
+        then:
+        1 * enrollmentNotificationService.emailStudent(StudentEmailType.ENROLLMENT, enrollmentDetails)
+    }
+}
 
