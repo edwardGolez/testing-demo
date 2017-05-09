@@ -75,25 +75,29 @@ public class EnrollmentServiceTest {
     public void processEnrollment_shouldEnrollStudentInClasses() throws Exception {
 
         EnrollmentDto enrollmentDetails = mock(EnrollmentDto.class);
-        Student student = mock(Student.class);
 
-        when(enrollmentDetails.getStudent()).thenReturn(student);
+        Student student = enrollmentDetails.getStudent();
+
+        CourseClass course1 = mock(CourseClass.class);
+        CourseClass course2 = mock(CourseClass.class);
 
         Set<CourseClass> enrolledClasses = new HashSet<>();
-        enrolledClasses.add(mock(CourseClass.class));
-        enrolledClasses.add(mock(CourseClass.class));
-        enrolledClasses.add(mock(CourseClass.class));
+
+        enrolledClasses.add(course1);
+        enrolledClasses.add(course2);
 
         when(enrollmentDetails.getEnrolledClasses()).thenReturn(enrolledClasses);
-
-
-        Iterator<CourseClass> enrolledClass = enrolledClasses.iterator();
 
         enrollmentService.processEnrollment(enrollmentDetails);
 
         verify(courseClassService, times(1)).enrollStudentToClass(
                 ArgumentMatchers.eq(student),
-                ArgumentMatchers.eq(enrolledClass.next())
+                ArgumentMatchers.eq(course1)
+        );
+
+        verify(courseClassService, times(1)).enrollStudentToClass(
+                ArgumentMatchers.eq(student),
+                ArgumentMatchers.eq(course2)
         );
 
     }
