@@ -8,7 +8,7 @@ import org.junit.Test;
  */
 public class InvoiceItemTest {
     @Test
-    public void getExtendedPrice_shouldReturn1000AtSteakAt100AndQuantity10() throws Exception {
+    public void getExtendedPrice_shouldReturnItemQuantityTimesUnitPriceOfProduct() throws Exception {
         Product product = new Product("Steak", 100.0);
         int quantity = 10;
 
