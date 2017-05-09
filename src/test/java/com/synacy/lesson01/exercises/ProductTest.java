@@ -11,8 +11,8 @@ import static org.mockito.Mockito.mock;
 public class ProductTest {
     @Test(expected = IllegalArgumentException.class)
     public void setUnitPrice_shouldThrowIllegalArgumentExceptionAtUnitPriceNeg1() throws Exception {
-        Product product = mock(Product.class);
-        double unitPrice = -1;
+        double unitPrice = -1.00;
+        Product product = new Product("soap", unitPrice);
 
         product.setUnitPrice(unitPrice);
     }
